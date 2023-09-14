@@ -1,0 +1,70 @@
+.sidebar{
+    position: fixed;
+    height:675px;
+    width:400px;
+    background-color:white;
+    border:solid 1.5px rgb(143, 141, 141);
+    top:5%;
+    right:0px;
+    transition: 0.3s;
+    border-radius: 10px;
+}
+.side_bg{
+    position: fixed;
+    top:0;
+    left:0;
+    height: 100%;
+    z-index: 1000000000;
+    width:100%;
+    background-color: rgba(170, 138, 138,0.5);
+    
+}
+.cart_products{
+  
+    height: 70%;
+    width: 100%;
+    overflow: auto;
+    display: grid;
+    
+}
+.cart_controls{
+     border-top: solid; 
+
+}
+.cart_pricing{
+    margin-left: 20px;
+    margin-top:20px;
+}
+button.cart_btns{
+    font-family: "Monument Extended", sans-serif  !important;
+    height:54px;
+    margin-left: 20px;
+    width:363px;
+    border:solid;
+    border-radius: 10px;
+    cursor: pointer;
+    border-width: 2px;
+    border-color: rgb(72,228,113);
+}
+button#bag{
+    margin-top: 10px;
+background-color: transparent;
+}
+button#bag:hover{
+    background: rgb(207, 200, 200);
+}
+button#check{
+    margin-top: 10px;
+   background-color: rgb(72,228,113)
+}
+button#check:hover{
+    background-color: rgb(119, 234, 149);
+    border-color:rgb(119, 234, 149);
+}
+.close_btn{
+    position: absolute;
+    top:0.8%;
+    left:1.5%;
+    cursor:pointer;
+    font-weight: 800 !important;
+}

@@ -1,0 +1,31 @@
+.cart_product_container{
+    height:204px;
+    width:362px;
+    border-radius: 10px;
+    padding:10px;
+    border:solid;
+    border-color:rgb(207, 140, 140);
+    border-width: 1px;
+    margin-top:20px;
+    margin-left: 20px;
+}
+.cart_product{
+    display:flex;
+    justify-content:space-between;
+    
+}
+.cart_product img{
+    border-radius: 10px;
+}
+.cart_product_price{
+    display: flex;
+    justify-content: space-around;
+    border-top: solid;
+    border-width: 1px;
+    border-color:rgb(160, 157, 157);
+    padding-top: 10px;
+    margin-top: 10px;
+}
+.cart_product_priasdce :nth-child(2){
+    margin-top: -5px;
+}

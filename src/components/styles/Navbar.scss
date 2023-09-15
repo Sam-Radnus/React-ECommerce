@@ -4,12 +4,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
 @font-face {
   font-family: 'Monument Extended';
-  src: url('https://github.com/jp-quintana/react-shopping-cart/blob/main/src/assets/fonts/monument-extended.ttf');
+  src: url('');
 }
 
 @font-face {
   font-family: 'Monument Extended Ultrabold';
-  src: url('https://github.com/jp-quintana/react-shopping-cart/blob/main/src/assets/fonts/monument-extended.ttf');
+  src: url('');
 }
 
 $font-f-primary: 'Monument Extended', sans-serif;
@@ -71,7 +71,16 @@ $box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
 a{
   text-decoration: none !important;
 }
+ .nav,
+.nav:before,
+.nav:after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+}
 .nav {
+ 
+ 
     font-size: small;
     position: fixed !important;
     background-color: rgba(255, 255, 255, 1);
@@ -277,6 +286,7 @@ a{
       justify-content: center;
       gap: 3rem;
       display: flex;
+      margin-bottom: 25px !important;
       align-self: flex-end;
     }
   
@@ -285,7 +295,7 @@ a{
       color: $c-link-primary;
       display: inline-block;
       position: relative;
-  
+     
       &:hover {
         color: $c-link-hover;
       }

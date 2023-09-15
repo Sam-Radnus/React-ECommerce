@@ -1,9 +1,27 @@
-import React from 'react'
+import React , {useEffect,useState}from 'react'
 import "./styles/Sidebar.css"
-
+import { useSelector } from "react-redux";
 import CartProduct from './CartProduct'
 const Sidebar = (props) => {
   let {closeCart}=props;
+  const cartProducts = useSelector((state) => state.cart.cartItems);
+  const [tc, setTc] = useState(0);
+  const [tqty, setTqty] = useState(0);
+  useEffect(() => {
+    // Calculate total cost and total quantity when cartProducts change
+    let totalCost = 0;
+    let totalQuantity = 0;
+
+    for (let i = 0; i < cartProducts.length; i++) {
+      totalCost += cartProducts[i].price * cartProducts[i].qty;
+      totalQuantity += cartProducts[i].qty;
+    }
+
+    // Update the state variables
+    setTc(totalCost);
+    setTqty(totalQuantity);
+  }, [cartProducts]);
+
   return (
     <div className="side_bg">
        <div className='sidebar'>
@@ -14,11 +32,14 @@ const Sidebar = (props) => {
         </div>
 
          <div className='cart_products'>
-            <CartProduct  productName="black shirt" productImage="https://firebasestorage.googleapis.com/v0/b/flaakko-v2.appspot.com/o/product-images%2F6f8c3f7f-985c-4e3d-9dd9-21540b7766e2%2Fessential-sweatshirt-black-1.jpg?alt=media&token=e3126aae-48b7-4dfc-a63f-329fea819fdd"/>
-            <CartProduct  productName="black shirt" productImage="https://firebasestorage.googleapis.com/v0/b/flaakko-v2.appspot.com/o/product-images%2F6f8c3f7f-985c-4e3d-9dd9-21540b7766e2%2Fessential-sweatshirt-black-1.jpg?alt=media&token=e3126aae-48b7-4dfc-a63f-329fea819fdd"/>
-         </div>
+          {cartProducts && cartProducts.map((cart)=>{
+            return  <CartProduct  cart={cart} />
+          })
+           
+          }         
+            </div>
          <div className="cart_controls">
-            <div className="cart_pricing"> TOTAL: $122&nbsp;|&nbsp;2 Items</div>
+            <div className="cart_pricing"> TOTAL: ${tc.toFixed(2)}&nbsp;|&nbsp;{tqty===1?tqty+" Item":tqty+" Items"}</div>
             <button id="bag" className='cart_btns'>
                 your bag
             </button>

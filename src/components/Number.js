@@ -1,24 +1,24 @@
 import React,{useState}from 'react'
 import "./styles/Button.css";
 const Number = (props) => {
-    const { setInc,setDec}=props;
+    const { setInc,setDec,value}=props;
     const [inputVal, setInputVal] = useState(1);
 
     const handleInputChange = (e) => {
-      setInputVal(parseInt(e.target.value) || 1);
+      setInputVal(parseInt(e.target.value));
     };
   
     const handleAddClick = (e) => {
       
-        setInputVal(inputVal + 1);
+      
         setInc();
     };
   
     const handleRemoveClick = (e) => {
-      if (inputVal > 1) {
-        setInputVal(inputVal - 1);
+      
+      
         setDec();
-      }
+      
     };
   
 
@@ -26,7 +26,7 @@ const Number = (props) => {
     <div className="wrapper">
       <input
         type="number"
-        value={inputVal}
+        value={value}
         onChange={handleInputChange}
         min="1"
       />

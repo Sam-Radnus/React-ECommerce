@@ -16,28 +16,28 @@ function valuetext(value) {
 
 const Shop = () => {
   const [products,setProducts]=useState([]);
-  const [clothingItems,setClothingItems]=useState([]);
+  const [clothingItems,setClothingItems]=useState(data);
    // Initial range values
   const [factor,setFactor]=useState(-1);
   const [value,setValue]=useState([0,150])
   const [categories,setCategories]=useState(["Sports","Fashion","Party","Casual"])
   const [brands,setBrands]=useState(["Nike","Adidas","Peter England","Reebok"]);
-  const [ genders,setGenders ]=useState([]);
+  const [genders,setGenders ]=useState(["Male","Female","Unisex"]);
   const [ratings,setRatings]=useState([]);
+  const [sort,setSort]=useState(0);
+  const [discount,setDiscount]=useState(0);
   // Function to filter by price range
   
 function filterByPriceRange(minPrice, maxPrice) {
   console.log(minPrice);
   console.log(maxPrice);
+
   if(!minPrice && !maxPrice){
     return ;
   }
-  const prev=[...products];
-  const temp=clothingItems.filter(item => item.price >= minPrice.toFixed(2) && item.price <= maxPrice.toFixed(2) &&  categories.indexOf(item.category)!==-1 && brands.indexOf(item.brand)!==-1 );
+  const temp=clothingItems.filter(item => item.price >= value[0].toFixed(2) && item.price <= value[1].toFixed(2) && parseInt(item.discount)>=discount && categories.indexOf(item.category)!==-1 && brands.indexOf(item.brand)!==-1 && genders.indexOf(item.gender)!==-1 );
   setProducts(temp);
-
 }
-
 
 
 // Function to filter by color
@@ -48,31 +48,28 @@ function filterByColor(color) {
 // Function to filter by brand
 
 
-// Function to filter by rating
-function filterByRating(minRating) {
-  return products.filter(item => item.ratings >= minRating);
-}
-
-// Function to filter by gender
-function filterByGender(gender) {
-  return products.filter(item => item.gender === gender);
-}
 
 // Function to sort by date (ascending)
 function sortByDateAscending() {
-  return products.slice().sort((a, b) => new Date(a.date_of_release) - new Date(b.date_of_release));
+  const temp= products.slice().sort((a, b) => new Date(a.date_of_release) - new Date(b.date_of_release));
+  setProducts(temp);
 }
 
 // Function to sort by price (high to low)
 function sortByPriceHighToLow() {
-  return products.slice().sort((a, b) => b.price - a.price);
+  const temp= products.slice().sort((a, b) => b.price - a.price);
+  setProducts(temp);
 }
 
 // Function to sort by price (low to high)
 function sortByPriceLowToHigh() {
-  return products.slice().sort((a, b) => a.price - b.price);
+  const temp=products.slice().sort((a, b) => a.price - b.price);
+  setProducts(temp);
 }
-
+function sortByRatings(){
+  const temp=products.slice().sort((a, b) => a['ratings_100+'] - b['ratings_100+']);
+  setProducts(temp);
+}
 // // Example usage:
 // const filteredItemsByPrice = filterByPriceRange(range[0],range[1]);
 // const filteredItemsByColor = filterByColor("Black");
@@ -94,6 +91,22 @@ function sortByPriceLowToHigh() {
     }
     filterByPriceRange(value[0],value[1]);
   };
+  
+useEffect(()=>{
+  console.log(sort);
+   if(sort===0){
+    sortByDateAscending();
+   }
+   else if(sort===1){
+    sortByPriceHighToLow();
+   }
+   else if(sort===2){
+    sortByPriceLowToHigh()
+   }
+   else{
+    sortByRatings();
+   }
+},[sort])
   useEffect(()=>{
     console.log("category");
     
@@ -101,12 +114,26 @@ function sortByPriceLowToHigh() {
     
   },[categories.length])
   useEffect(()=>{
+    filterByPriceRange(value[0],value[1]);
+  },[genders.length])
+  useEffect(()=>{
     console.log("brand");
   
     filterByPriceRange(value[0],value[1]);
    
   },[brands.length])
-
+  useEffect(()=>{
+    console.log(products);
+    filterByPriceRange(value[0],value[1]);
+   },[products.length])
+   useEffect(()=>{
+     console.log(value);
+     filterByPriceRange(value[0],value[1]);
+   },[value])
+   useEffect(()=>{
+      filterByPriceRange(value[0],value[1]);
+   },[discount])
+ 
   function toggleCategory(el){
     if(categories.indexOf(el)===-1){
      setCategories((prev)=>{
@@ -132,20 +159,20 @@ function sortByPriceLowToHigh() {
     }
     console.log(brands);
   }
-  useEffect(()=>{
-     fetchData();
-  },[])
-  useEffect(()=>{
-   console.log(products);
-  },[products.length])
-  useEffect(()=>{
-    console.log(value);
-    filterByPriceRange(value[0],value[1]);
-  },[value])
-  async function fetchData(){
-    setProducts(data);
-    setClothingItems(data);
-   }
+  function toggleGenders(el){
+    if(genders.indexOf(el)===-1){
+      setGenders((prev)=>{
+        return [...prev,el]    
+     })
+    }
+    else{
+      setGenders((prev)=>{
+          return prev.filter((brand)=>brand!==el)
+      })
+    }
+    console.log(brands);
+  }
+  
   return (
   <div className="main" onClick={(e)=>{
     console.log(e.target.className)
@@ -256,9 +283,13 @@ function sortByPriceLowToHigh() {
  <div className="help">
 
         <div className="criteria">
-       <button className="criteria_btn">Male</button>
-        
-           <button className="criteria_btn_selected">Female</button>
+        <button onClick={()=>{
+        toggleGenders("Male")}} className={`criteria_btn${genders.indexOf("Male")!==-1?"_selected":""}`}>Male</button>
+           <button  onClick={()=>{
+        toggleGenders("Female")}} className={`criteria_btn${genders.indexOf("Female")!==-1?"_selected":""}`}>Female</button>
+           <button  onClick={()=>{
+        toggleGenders("Unisex")}} className={`criteria_btn${genders.indexOf("Unisex")!==-1?"_selected":""}`}>Unisex</button>
+           
         </div>
     </div>
 }
@@ -266,9 +297,15 @@ function sortByPriceLowToHigh() {
  <div className="help">
   
   <div className="criteria">
-       <button className="criteria_btn">-10%</button>
-           <button className="criteria_btn">-25%</button>
-              <button className="criteria_btn_selected">-50%</button>
+  <button onClick={()=>{
+        setDiscount(10);
+       }} className={`criteria_btn${discount>=10?"_selected":""}`}>10%</button>
+       <button onClick={()=>{
+        setDiscount(25);
+       }} className={`criteria_btn${discount>=25?"_selected":""}`}>25%</button>
+       <button onClick={()=>{
+        setDiscount(50);
+       }} className={`criteria_btn${discount>=50?"_selected":""}`}>50%</button>
          
         </div>
  </div>
@@ -276,9 +313,18 @@ function sortByPriceLowToHigh() {
 {  factor===6 &&
  <div className="help">
   <div className="criteria">
-       <button className="criteria_btn">Price:Low-High</button>
-           <button className="criteria_btn">Price:High-Low</button>
-              <button className="criteria_btn_selected">Newest</button>
+       <button onClick={()=>{
+        setSort(0);
+       }} className={`criteria_btn${sort===0?"_selected":""}`}>Price:Low-High</button>
+       <button onClick={()=>{
+        setSort(1);
+       }} className={`criteria_btn${sort===1?"_selected":""}`}>Price:High-Low</button>
+       <button onClick={()=>{
+        setSort(2);
+       }} className={`criteria_btn${sort===2?"_selected":""}`}>Newest</button>
+        <button onClick={()=>{
+        setSort(3);
+       }} className={`criteria_btn${sort===3?"_selected":""}`}>Ratings</button>
          
         </div>
  </div>
@@ -292,9 +338,7 @@ function sortByPriceLowToHigh() {
         <div onClick={()=>{
 setFactor(1);
         }}className='helper_btn'><button className="btn_child">Category</button></div>
-        <div onClick={()=>{
-setFactor(2);
-        }}className='helper_btn'><button className="btn_child">Color</button></div>
+        
         <div onClick={()=>{
 setFactor(3);
         }}className='helper_btn'><button className="btn_child">Brand</button></div>

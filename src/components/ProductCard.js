@@ -1,10 +1,27 @@
-import React ,{useState} from 'react'
+import React ,{useEffect, useState} from 'react'
 import "./styles/ProductCard.css"
+import { addToCart,removeFromCart } from "./../components/Actions/Actions";
+import { useSelector,useDispatch } from "react-redux";
 import Number from './Number';
 const ProductCard = (props) => {
   const {product}=props;
   const [state,setState]=useState(1);
+  const dispatch=useDispatch();
+  const [isAdded,setAdded]=useState(false);
+  const cartItems=useSelector(state=>state.cart.cartItems);
   const ar=["S","M","L","XL"];
+  useEffect(()=>{
+     const temp=cartItems.some((item)=>item.title===product.title);
+	 if(temp){
+		setAdded(true);
+	 }
+	 else{
+		setAdded(false);
+	 }
+  },[cartItems.length])
+  useEffect(()=>{
+
+  },[isAdded])
   const incNum=()=>{
 	setState((prevState)=>{
 		return prevState+1;
@@ -15,6 +32,7 @@ const ProductCard = (props) => {
 		return prevState-1;
 	})
   }
+ 
   return (
 	<div>
 	<li class="card">
@@ -33,17 +51,33 @@ const ProductCard = (props) => {
 			</div>
 			
 		</div> 
+		<div className="discount">
+			<span>{product.discount}%</span>
+		</div>
 		<a class="card-image" href="https://github.com/Sam-Radnus" target="_blank" style={{backgroundImage:`url(${product.ImageURL})`}} data-image-full="https://s3-us-west-2.amazonaws.com/s.cdpn.io/310408/psychopomp-500.jpg">
 			<img src={"product"} alt="Psychopomp" />
 		</a>
 		<div class="card-description">
 			<div className="product_title">
-		<h4>{product.title}</h4> <span>{product.brand}</span>
+		<h4 style={{height:"35px"}}>{product.title}</h4> <span>{product.brand}</span> <span>{product.gender}</span>
+		{/* Colors Available:{
+			product.colors_available.map((color)=>{
+				return <span><div style={{backgroundColor:{color},height:"10px",width:"10px"}}></div>{color}</span>
+			})
+		} */}
 		</div>
-		<div style={{display:"flex",justifyContent:"space-around"}}>
-			<h4 style={{color:"red"}}>${(product.price*state).toFixed(2)}</h4>
-			<button className='add_to_cart'><p>Add to Cart</p></button>
-     
+		<div style={{display:"flex",marginLeft:"-12px",justifyContent:"space-around"}}>
+			<h4 style={{marginLeft:"0 !important",color:"red"}}>${(product.price*state).toFixed(2)}</h4>
+			{ isAdded ?
+			<button onClick={()=>{
+				dispatch(removeFromCart(product))
+			}} className='add_to_cart'><p>Remove</p></button>
+		   :
+		   <button onClick={()=>{
+			   
+				dispatch(addToCart(product))
+			}} className='add_to_cart'><p>Add to Cart</p></button>
+		     }
 			</div>
 			{/* <p>{description.slice(0,20)}...</p> */}
 		</div>

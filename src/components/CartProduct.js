@@ -20,7 +20,7 @@ const CartProduct = (props) => {
     return (
     <div className="cart_product_container">
     <div className="cart_product">
-            <div><h4>{cart.title}</h4> <br/><span>M</span><br/><span>${cart.price}</span> </div>
+            <div><h4>{cart.title}</h4>{cart.gender}<br/><span>${cart.price}</span> </div>
             <div><img src={cart.ImageURL} height="124"/></div>
     </div>
     <div className="cart_product_price">

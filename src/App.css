@@ -5,6 +5,11 @@
 body{
   font-family: "Monument Extended", sans-serif  !important;
   padding-bottom:180px;
+  display: flex;
+  
+  justify-content: center !important;
+  align-items: center !important;
+
 }
 button{
   transition: 0.5s;

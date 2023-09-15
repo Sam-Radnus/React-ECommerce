@@ -2,7 +2,9 @@ import React , {useEffect,useState}from 'react'
 import "./styles/Sidebar.css"
 import { useSelector } from "react-redux";
 import CartProduct from './CartProduct'
+import { Link , useNavigate} from "react-router-dom";
 const Sidebar = (props) => {
+  const navigate=useNavigate();
   let {closeCart}=props;
   const cartProducts = useSelector((state) => state.cart.cartItems);
   const [tc, setTc] = useState(0);
@@ -24,6 +26,7 @@ const Sidebar = (props) => {
 
   return (
     <div className="side_bg">
+
        <div className='sidebar'>
         <div onClick={()=>{
           closeCart();
@@ -43,7 +46,11 @@ const Sidebar = (props) => {
             <button id="bag" className='cart_btns'>
                 your bag
             </button>
-            <button id="check" className='cart_btns'>
+            <button id="check" onClick={()=>{
+              closeCart();
+              localStorage.setItem("TotalCost",tc);
+              navigate("/payment");
+            }}className='cart_btns'>
                 checkout
             </button>
          </div>

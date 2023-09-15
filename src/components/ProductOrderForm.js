@@ -1,89 +1,79 @@
 import React from 'react';
 import "./styles/ProductOrderForm.css"
+import { Link,useNavigate } from "react-router-dom";
 function ProductOrderForm() {
+  const navigate=useNavigate();
+  const [finalCost,setFinalCost]=React.useState(parseFloat(localStorage.getItem("TotalCost")));
   return (
+    <div className='outer_wrapper'>
+    <div className="payment_wrapper">
     <div className="payment_container">
-      <div className="title">
-        <h2>Product Order Form</h2>
-      </div>
-      <div className="d-flex">
-        <form action="" method="">
-          <label>
-            <span className="fname">First Name <span className="required">*</span></span>
-            <input type="text" name="fname" />
-          </label>
-          <label>
-            <span className="lname">Last Name <span className="required">*</span></span>
-            <input type="text" name="lname" />
-          </label>
-        
-          <label>
-            <span>Country <span className="required">*</span></span>
-            <select name="selection">
-              <option value="select">Select a country...</option>
-              {/* Add the rest of the options here */}
-            </select>
-          </label>
-          <label>
-            <span>Street Address <span className="required">*</span></span>
-            <input type="text" name="houseadd" placeholder="House number and street name" required />
-          </label>
-          <label>
-            <span>&nbsp;</span>
-            <input type="text" name="apartment" placeholder="Apartment, suite, unit etc. (optional)" />
-          </label>
-          <label>
-            <span>Town / City <span className="required">*</span></span>
-            <input type="text" name="city" />
-          </label>
-          <label>
-            <span>State / County <span className="required">*</span></span>
-            <input type="text" name="state" />
-          </label>
-          <label>
-            <span>Postcode / ZIP <span className="required">*</span></span>
-            <input type="text" name="postcode" />
-          </label>
-          <label>
-            <span>Phone <span className="required">*</span></span>
-            <input type="tel" name="phone" />
-          </label>
-          <label>
-            <span>Email Address <span className="required">*</span></span>
-            <input type="email" name="email" />
-          </label>
+
+        <form action="">
+            <p style={{fontSize:"1vw !important",width:"100%"}}>
+                <i className="fas fa-shipping-fast"></i>
+                Shipping Details
+            </p>
+            
+
+            <div className="name">
+                <div>
+                    <label for="f-name">First</label>
+                    <input type="text" name="f-name"/>
+                </div>
+                <div>
+                    <label for="l-name">Last</label>
+                    <input type="text" name="l-name"/>
+                </div>
+            </div>
+            <div className="street">
+                <label for="name">Street</label>
+                <input type="text" name="address"/>
+            </div>
+            <div className="address-info">
+                <div>
+                    <label for="city">City</label>
+                    <input type="text" name="city"/>
+                </div>
+                <div>
+                    <label for="state">State</label>
+                    <input type="text" name="state"/>
+                </div>
+                <div>
+                    <label for="zip">Zip</label>
+                    <input type="text" name="zip"/>
+                </div>
+            </div>
+            <p style={{fontSize:"1vw !important"}}>
+              Payment Information
+            </p>
+            <div className="cc-num">
+                 <p style={{lineHeight:"12px",fontSize:"1vw !important"}}>Total Amount:${finalCost.toFixed(2)}</p>
+            </div>
+              <div className="cc-num">
+                <label for="card-num">Credit Card No.</label>
+                <input type="text" name="card-num"/>
+            </div>
+            <div className="cc-info">
+                <div>
+                    <label for="card-num">Exp</label>
+                    <input type="text" name="expire"/>
+                </div>
+                <div>
+                    <label for="card-num">CCV</label>
+                    <input type="text" name="security"/>
+                </div>
+            </div>
+            <div className="btns">
+                <button>Purchase</button>
+                <button onClick={()=>{
+                  navigate("/");
+                }}>Back</button>
+            </div>
         </form>
-        <div className="Yorder">
-          <table>
-            <tr>
-              <th colSpan="2">Your order</th>
-            </tr>
-            <tr>
-              <td>Product Name x 2(Qty)</td>
-              <td>$88.00</td>
-            </tr>
-            <tr>
-              <td>Subtotal</td>
-              <td>$88.00</td>
-            </tr>
-            <tr>
-              <td>Shipping</td>
-              <td>Free shipping</td>
-            </tr>
-          </table>
-          <br />
-          <div>
-            <input type="radio" name="dbt" value="dbt" checked /> Direct Bank Transfer
-          </div>
-          
-          <div>
-            <input type="radio" name="dbt" value="cd" /> Cash on Delivery
-          </div>
-          
-          <button type="button">Place Order</button>
-        </div>
-      </div>
     </div>
+</div>
+</div>
   );
 }
 

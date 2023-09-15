@@ -28,8 +28,8 @@
     
 }
 .cart_controls{
-     border-top: solid; 
-
+    
+  border-top: solid 1px black;
 }
 .cart_pricing{
     margin-left: 20px;
@@ -39,7 +39,7 @@ button.cart_btns{
     font-family: "Monument Extended", sans-serif  !important;
     height:54px;
     margin-left: 20px;
-    width:363px;
+    width:90%;
     border:solid;
     border-radius: 10px;
     cursor: pointer;
@@ -67,4 +67,10 @@ button#check:hover{
     left:1.5%;
     cursor:pointer;
     font-weight: 800 !important;
+}
+@media screen and (max-width:500px) {
+    .sidebar{
+        width:100vw;    
+    }
+    
 }

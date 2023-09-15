@@ -71,15 +71,9 @@ $box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
 a{
   text-decoration: none !important;
 }
- .nav,
-.nav:before,
-.nav:after {
-  box-sizing: inherit;
-  margin: 0;
-  padding: 0;
-}
+
 .nav {
- 
+    
  
     font-size: small;
     position: fixed !important;
@@ -89,8 +83,9 @@ a{
     backdrop-filter: blur(8px);
     border-radius: 0 0 3rem 3rem;
     box-shadow: $box-shadow;
+    top:0;
     left: 50%;
-    margin-top:-10%;
+   
     padding: 0.5rem 3rem 0.5rem 3rem;
     transform: translateX(-50%);
     width: 98%;
@@ -340,3 +335,12 @@ a{
       }
     }
   }
+#item_length{
+  position: absolute;
+  top:-40%;
+  right:-25%;
+  background-color: blue;
+  color:white;
+  border-radius: 50%;
+  padding:3px 5px;
+}

@@ -1,8 +1,10 @@
 .cart_product_container{
     height:204px;
-    width:362px;
+ 
+    width:90%;
     border-radius: 10px;
     padding:10px;
+ 
     border:solid;
     border-color:rgb(207, 140, 140);
     border-width: 1px;
@@ -11,6 +13,7 @@
 }
 .cart_product{
     display:flex;
+   
     justify-content:space-between;
     
 }
@@ -22,10 +25,11 @@
     justify-content: space-around;
     border-top: solid;
     border-width: 1px;
+    
     border-color:rgb(160, 157, 157);
     padding-top: 10px;
     margin-top: 10px;
 }
-.cart_product_priasdce :nth-child(2){
-    margin-top: -5px;
+.cart_product_price :nth-child(2){
+    margin-top: 0px;
 }

@@ -1,5 +1,6 @@
 import React ,{useEffect,useState} from 'react'
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 import ProductCard from './ProductCard';
 import './styles/Shop.css'
 import "./styles/Slider.less"
@@ -27,7 +28,7 @@ const Shop = () => {
   const [sort,setSort]=useState(0);
   const [discount,setDiscount]=useState(0);
   // Function to filter by price range
-  
+  const cartItems=useSelector((state)=>state.cart.cartItems)
 function filterByPriceRange(minPrice, maxPrice) {
   console.log(minPrice);
   console.log(maxPrice);
@@ -203,7 +204,7 @@ useEffect(()=>{
     { factor===0 &&
     <div className="help">
         <Box textAlign='center' mt={4}>
-        Range: ${value[0]} - ${value[1]} {/* Display the range values with dollar sign */}
+       <p style={{lineHeight:0}}> Range: ${value[0]} - ${value[1]} </p> {/* Display the range values with dollar sign */}
       </Box>
          <Box sx={{ width: 300 }}>
     <Slider

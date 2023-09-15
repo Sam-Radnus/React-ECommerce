@@ -128,6 +128,7 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#FFFFFF", en
 	display: block;
 	top:60% !important;
 	padding-top: 10px;
+	height:10% !important;
 	box-shadow: 2px 2px 2px 2px black;
   }
 }

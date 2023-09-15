@@ -6,12 +6,14 @@
     border:solid 1.5px rgb(143, 141, 141);
     top:5%;
     right:0px;
+    overflow: scroll;
     transition: 0.3s;
     border-radius: 10px;
 }
 .side_bg{
     position: fixed;
     top:0;
+    overflow: scroll;
     left:0;
     height: 100%;
     z-index: 1000000000;
@@ -71,6 +73,12 @@ button#check:hover{
 @media screen and (max-width:500px) {
     .sidebar{
         width:100vw;    
+    }
+    
+}
+@media screen and (max-height:660px) {
+    .cart_products{
+        height:230px;    
     }
     
 }

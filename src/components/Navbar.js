@@ -1,14 +1,21 @@
-import React,{useState} from 'react';
-import { Link } from 'react-router-dom';
+import React,{useState,useEffect} from 'react';
+import { Link, json } from 'react-router-dom';
 import "./styles/Navbar.scss"
 import { RiMenuLine } from 'react-icons/ri';
 import { CgSearch } from 'react-icons/cg';
 import Sidebar from './Sidebar';
 import { useSelector } from 'react-redux';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { GoogleLogin } from '@react-oauth/google';
+import jwt_decode from "jwt-decode";
 const Navbar = () => {
+  
   const [hasScrolled, setHasScrolled] = React.useState(false);
   const [showCart,setShowCart]=React.useState(false);
+  const [user,setUser]=useState(null);
+  const [id,setId]=useState(0);
   const cartItems=useSelector((state)=>state.cart.cartItems);
+   
   const resizeHeaderOnScroll = () => {
     setHasScrolled((prevHasScrolled) => {
       if (
@@ -30,20 +37,40 @@ const Navbar = () => {
       return prevHasScrolled;
     });
   };
-
+  const responseGoogle = (response) => {
+    //console.log(response);
+     const userObject = jwt_decode(response.credential);
+     //console.log(userObject);
+     setId(userObject._id);
+     localStorage.setItem('user', JSON.stringify(userObject));
+     const { name, sub, picture } = userObject;
+     const doc = {
+       _id: sub,
+       _type: 'user',
+       userName: name,
+       image: picture,
+     };
+     console.log(doc);
  
+  }
   React.useEffect(() => {
     window.addEventListener('scroll', resizeHeaderOnScroll);
 
     return () => window.removeEventListener('scroll', resizeHeaderOnScroll);
   }, []);
+  useEffect(()=>{
+     let data=localStorage.getItem("user");
+     let parsedData=JSON.parse(data);
+     console.log(parsedData);
+     setUser(parsedData);
+  },[id])
   const closeSidebar=()=>{
     setShowCart(false);
   }
   const navStyles = hasScrolled
     ? `nav hasScrolled`
     : "nav";
-
+    
   return (
     <>
     {
@@ -58,9 +85,44 @@ const Navbar = () => {
         </Link>
        &nbsp;
         <Link className="login_link">
-          Login
+          { user?
+             <div stlye={{display:"flex"}}>
+              <div>
+             <img src={user.picture} height="30" width="30" style={{borderRadius:"50%"}} /></div>
+            
+            </div>
+          :
+        <GoogleOAuthProvider 
+                clientId={`${process.env.REACT_APP_GOOGLE_API_TOKEN}`}
+                >
+             <GoogleLogin
+              render={(renderProps) => (
+                <button
+                  type="button"
+                  className=""
+                  onClick={renderProps.onClick}
+                  disabled={renderProps.disabled}
+                >
+                   Sign in with google
+                </button>
+              )}
+              onSuccess={responseGoogle}
+              onFailure={responseGoogle}
+              cookiePolicy="single_host_origin"
+            />
+            </GoogleOAuthProvider>
+          }
         </Link>
-  
+        <Link className='info_link'>
+          { user && 
+        <div style={{marginTop:"5px"}} onClick={()=>{
+              setUser(null);
+              setId(0);
+                localStorage.removeItem("user");
+             }}>Logout</div>
+            }
+        
+             </Link>
       </div>
       <div className={"container_bottom"}>
       <Link to="/" style={{textDecoration:"none"}}>
@@ -95,6 +157,10 @@ const Navbar = () => {
           <li className={"cart_icon"}  style={{position:"relative"}} onClick={()=>{
             if(!cartItems || cartItems.length===0){
               alert("Please first add some items to the Cart");
+              return;
+            }
+            if(!user){
+              alert("Please Login to Continue");
               return;
             }
           setShowCart(true);

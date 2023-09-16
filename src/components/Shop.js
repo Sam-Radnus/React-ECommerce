@@ -25,7 +25,7 @@ const Shop = () => {
   const [brands,setBrands]=useState(["Nike","Adidas","Peter England","Reebok"]);
   const [genders,setGenders ]=useState(["Male","Female","Unisex"]);
   const [ratings,setRatings]=useState([]);
-  const [sort,setSort]=useState(0);
+  const [sort,setSort]=useState(-1);
   const [discount,setDiscount]=useState(0);
   // Function to filter by price range
   const cartItems=useSelector((state)=>state.cart.cartItems)
@@ -37,7 +37,25 @@ function filterByPriceRange(minPrice, maxPrice) {
     return ;
   }
   const temp=clothingItems.filter(item => item.price >= value[0].toFixed(2) && item.price <= value[1].toFixed(2) && parseInt(item.discount)>=discount && categories.indexOf(item.category)!==-1 && brands.indexOf(item.brand)!==-1 && genders.indexOf(item.gender)!==-1 );
-  setProducts(temp);
+  let res=temp;
+  console.log(temp);
+  console.log(sort);
+  if(sort===0){
+    sortByPriceLowToHigh(temp)
+   }
+   else if(sort===1){
+    sortByPriceHighToLow(temp);
+   }
+   else if(sort===2){
+    sortByDateAscending(temp);
+   }
+   else if(sort===3){
+    sortByRatings(temp);
+   }
+   else{
+    setProducts(temp);
+   }
+  
 }
 
 
@@ -51,25 +69,41 @@ function filterByColor(color) {
 
 
 // Function to sort by date (ascending)
-function sortByDateAscending() {
-  const temp= products.slice().sort((a, b) => new Date(a.date_of_release) - new Date(b.date_of_release));
-  setProducts(temp);
+function sortByDateAscending(clothes) {
+  if(clothes){
+    let DAscend=clothes.slice().sort((a, b) => new Date(a.date_of_release) - new Date(b.date_of_release));
+    console.log(DAscend);
+    setProducts(DAscend);
+  }
+  
 }
 
 // Function to sort by price (high to low)
-function sortByPriceHighToLow() {
-  const temp= products.slice().sort((a, b) => b.price - a.price);
-  setProducts(temp);
+function sortByPriceHighToLow(clothes) {
+  if(clothes){
+     let HLClothes=clothes.slice().sort((a, b) => b.price - a.price);
+     console.log(HLClothes)
+     setProducts(HLClothes);
+  }
+ // const temp= products.slice().sort((a, b) => b.price - a.price);
+  
 }
 
 // Function to sort by price (low to high)
-function sortByPriceLowToHigh() {
-  const temp=products.slice().sort((a, b) => a.price - b.price);
-  setProducts(temp);
+function sortByPriceLowToHigh(clothes) {
+  if(clothes){
+    let LHClothes=clothes.slice().sort((a, b) => a.price - b.price);
+    console.log(LHClothes);
+    setProducts(LHClothes);
+  }
+
 }
-function sortByRatings(){
-  const temp=products.slice().sort((a, b) => a['ratings_100+'] - b['ratings_100+']);
-  setProducts(temp);
+function sortByRatings(clothes){
+  if(clothes){
+    let SRClothes=clothes.slice().sort((a, b) => a['ratings_100+'] - b['ratings_100+']);
+    console.log(SRClothes);
+    setProducts(SRClothes);
+  }
 }
 // // Example usage:
 // const filteredItemsByPrice = filterByPriceRange(range[0],range[1]);
@@ -96,16 +130,17 @@ function sortByRatings(){
 useEffect(()=>{
   console.log(sort);
    if(sort===0){
-    sortByDateAscending();
+    sortByPriceLowToHigh(products)
+   
    }
    else if(sort===1){
-    sortByPriceHighToLow();
+    sortByPriceHighToLow(products);
    }
    else if(sort===2){
-    sortByPriceLowToHigh()
+    sortByDateAscending(products);
    }
    else{
-    sortByRatings();
+    sortByRatings(products);
    }
 },[sort])
   useEffect(()=>{
@@ -299,13 +334,19 @@ useEffect(()=>{
   
   <div className="criteria">
   <button onClick={()=>{
-        setDiscount(10);
+        setDiscount((prev)=>{
+          return prev===10?0:10;
+        });
        }} className={`criteria_btn${discount>=10?"_selected":""}`}>10%</button>
        <button onClick={()=>{
-        setDiscount(25);
+        setDiscount((prev)=>{
+          return prev===25?10:25;
+        });
        }} className={`criteria_btn${discount>=25?"_selected":""}`}>25%</button>
        <button onClick={()=>{
-        setDiscount(50);
+        setDiscount((prev)=>{
+          return prev===50?25:50;
+        });
        }} className={`criteria_btn${discount>=50?"_selected":""}`}>50%</button>
          
         </div>

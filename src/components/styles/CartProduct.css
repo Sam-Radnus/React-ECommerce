@@ -1,6 +1,6 @@
 .cart_product_container{
-    height:204px;
- 
+    min-height:214px;
+
     width:90%;
     border-radius: 10px;
     padding:10px;
@@ -13,7 +13,7 @@
 }
 .cart_product{
     display:flex;
-   
+    overflow:hidden;
     justify-content:space-between;
     
 }
@@ -32,4 +32,10 @@
 }
 .cart_product_price :nth-child(2){
     margin-top: 0px;
+}
+@media (max-width:400px) { 
+    .cart_product div h4,span{
+         font-size: small;
+    }
+    
 }

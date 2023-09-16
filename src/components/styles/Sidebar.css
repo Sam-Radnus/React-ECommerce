@@ -3,17 +3,17 @@
     height:675px;
     width:400px;
     background-color:white;
-    border:solid 1.5px rgb(143, 141, 141);
+    border:solid 1.5px rgb(255, 255, 255);
     top:5%;
     right:0px;
-    overflow: scroll;
+
     transition: 0.3s;
     border-radius: 10px;
 }
 .side_bg{
     position: fixed;
     top:0;
-    overflow: scroll;
+  
     left:0;
     height: 100%;
     z-index: 1000000000;
@@ -27,7 +27,7 @@
     width: 100%;
     overflow: auto;
     display: grid;
-    
+    gap:10px;
 }
 .cart_controls{
     
@@ -78,7 +78,9 @@ button#check:hover{
 }
 @media screen and (max-height:660px) {
     .cart_products{
-        height:230px;    
+        height:230px;   
+        overflow: scroll; 
+
     }
     
 }
